@@ -16,7 +16,7 @@
                 Upload a csv file containing settled bet data.
             </p>
             <p>
-                <input class="btn btn-default" type=file id=SettledBetsFile name=SettledBetsFile runat="server" >
+                <input class="btn btn-default" type=file id=SettledBetsFile name=SettledBetsFile runat="server" onchange="ValidateSettledFile(this.value);">
             </p>
         </div>
         <div class="col-md-4">
@@ -25,7 +25,7 @@
                 Upload a csv file containing unsettled bet data.
             </p>
             <p>
-                <input class="btn btn-default" type=file id=UnsettledBetsFile name=UnsettledBetsFile runat="server" >
+                <input class="btn btn-default" type=file id=UnsettledBetsFile name=UnsettledBetsFile runat="server" onchange="ValidateUnsettledFile(this.value);">
             </p>
         </div>
         <div class="col-md-4">
@@ -37,9 +37,35 @@
                 Large Win - When a bet will win more than $1000
             </p>
             <p>
-                <input class="btn btn-default" type="submit" id="AnalyseBets" value="Analyse" runat="server" NAME="AnalyseBets">
+                <input class="btn btn-default" type="submit" id="AnalyseBets" value="Analyse" runat="server" name="AnalyseBets" disabled>
             </p>
         </div>
     </div>
+
+    <script type="text/javascript">
+        function ValidateSettledFile(fileName) {
+            if (ValidateCSVFile(fileName)) {
+                if (ValidateCSVFile(document.getElementById('<%=UnsettledBetsFile.ClientID%>').value, true)) document.getElementById('<%=AnalyseBets.ClientID%>').disabled = false;
+                return true;
+            }
+            document.getElementById('<%=AnalyseBets.ClientID%>').disabled = true;
+            return false;
+        }
+
+        function ValidateUnsettledFile(fileName) {
+            if (ValidateCSVFile(fileName)) {
+                if (ValidateCSVFile(document.getElementById('<%=SettledBetsFile.ClientID%>').value, true)) document.getElementById('<%=AnalyseBets.ClientID%>').disabled = false;
+                return true;
+            }
+            document.getElementById('<%=AnalyseBets.ClientID%>').disabled = true;
+            return false;
+        }
+
+        function ValidateCSVFile(fileName, SuppressPromptOnError = false) {
+            if (fileName.split('.').pop() == "csv") return true;   
+            if (!SuppressPromptOnError) alert("Please select a csv file.");
+            return false;
+        }
+    </script>
 
 </asp:Content>

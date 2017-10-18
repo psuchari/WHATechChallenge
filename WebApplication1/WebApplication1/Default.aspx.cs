@@ -18,10 +18,5 @@ namespace WebApplication1
         {            
 
         }
-
-        private void UploadFile(System.Web.UI.HtmlControls.HtmlInputFile file)
-        {
-
-        }
     }
 }
