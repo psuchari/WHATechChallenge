@@ -4,9 +4,6 @@
 
     <div class="jumbotron">
         <h1>Risk Analysis</h1>
-        <p class="lead">
-            
-        </p>
     </div>
 
     <div class="row">
@@ -36,10 +33,22 @@
                 Highly Unusual - When a customer stake is 30 times higher than their average bet<br />
                 Large Win - When a bet will win more than $1000
             </p>
-            <p>
-                <input class="btn btn-default" type="submit" id="AnalyseBets" value="Analyse" runat="server" name="AnalyseBets" disabled>
+            <p>                
+                <asp:Button ID="AnalyseBets" runat="server" Text="Analyse" OnClick="AnalyseBets_Click" />
             </p>
         </div>
+    </div>
+
+    <div class="row">
+        <asp:GridView ID="GridViewSettledBets" runat="server"></asp:GridView>
+    </div>
+
+    <div class="row">
+        <asp:GridView ID="GridViewUnsettledBets" runat="server"></asp:GridView>
+    </div>
+
+    <div class="row">
+        <asp:Label ID="LabelError" runat="server" /> 
     </div>
 
     <script type="text/javascript">
