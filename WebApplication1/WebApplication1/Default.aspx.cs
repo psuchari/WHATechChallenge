@@ -90,7 +90,7 @@ namespace WebApplication1
             dataTable.Columns.Add(column);
 
             column = new DataColumn();
-            column.DataType = typeof(Decimal);
+            column.DataType = typeof(Double);
             column.ColumnName = "AverageStake";
             dataTable.Columns.Add(column);
 
@@ -104,6 +104,11 @@ namespace WebApplication1
             column.ColumnName = "WinCount";
             dataTable.Columns.Add(column);
 
+            column = new DataColumn();
+            column.DataType = typeof(Double);
+            column.ColumnName = "WinPercentage";
+            dataTable.Columns.Add(column);
+
             return settledBets.AsEnumerable()
                 .GroupBy(r => r.Field<int>("Customer"))
                 .Select(g => 
@@ -113,6 +118,8 @@ namespace WebApplication1
                     row["AverageStake"] = g.Average(x => x.Field<int>("Stake"));
                     row["BetCount"] = g.Count();
                     row["WinCount"] = g.Count(x => x.Field<int>("Win") > 0);
+                    row["WinPercentage"] = (double)row.Field<Int32>("WinCount") / row.Field<Int32>("BetCount") * 100;
+
                     return row;
                 }).CopyToDataTable();
 
