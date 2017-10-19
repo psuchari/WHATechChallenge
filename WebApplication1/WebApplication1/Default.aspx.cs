@@ -144,33 +144,28 @@ namespace WebApplication1
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 Int32 customer = Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "Customer"));
-                if (IsCustomerRisky(customer))
+                if (Evalulator.IsCustomerRisky(customer, RiskyCustomers))
                 {
                     e.Row.BackColor = System.Drawing.Color.Yellow;
                 }
 
                 Int32 stake = Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "Stake"));
                 Double averageStake = GetCustomerAverageStake(customer);
-                if (IsStakeHighlyUnusual(stake, averageStake))
+                if (Evalulator.IsStakeHighlyUnusual(stake, averageStake))
                 {
                     e.Row.ForeColor = System.Drawing.Color.Red;
                 }
-                else if (IsStakeUnusual(stake, averageStake))
+                else if (Evalulator.IsStakeUnusual(stake, averageStake))
                 {
                     e.Row.ForeColor = System.Drawing.Color.Orange;
                 }
 
                 Int32 payout = Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "To Win"));
-                if (IsHighPayoutBet(payout))
+                if (Evalulator.IsHighPayoutBet(payout))
                 {
                     e.Row.Font.Bold = true;
                 }
             }
-        }
-
-        private bool IsCustomerRisky(Int32 customer)
-        {
-            return (RiskyCustomers.Count > 0 && RiskyCustomers.Exists(x => x == customer));
         }
 
         private Double GetCustomerAverageStake(Int32 customer)
@@ -180,19 +175,5 @@ namespace WebApplication1
                 .Select(r => r.Field<Double>("AverageStake")).SingleOrDefault();
         }
 
-        private bool IsStakeUnusual(Int32 stake, Double averageStake)
-        {
-            return (stake > averageStake * 10);
-        }
-
-        private bool IsStakeHighlyUnusual(Int32 stake, Double averageStake)
-        {
-            return (stake > averageStake * 30);
-        }
-
-        private bool IsHighPayoutBet(Int32 payout)
-        {
-            return (payout > 1000);
-        }
     }
 }
