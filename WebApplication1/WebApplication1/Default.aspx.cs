@@ -31,8 +31,8 @@ namespace WebApplication1
         private void LoadCsvFiles()
         {
             DataTable dataTable = new DataTable();
-            dataTable = ReadCsvFile(SettledBetsFile);
-            GridViewSettledBets.DataSource = dataTable;
+            dataTable = ReadCsvFile(SettledBetsFile);          
+            GridViewSettledBets.DataSource = SummariseSettledBets(dataTable); ;
             GridViewSettledBets.DataBind();
             dataTable = ReadCsvFile(UnsettledBetsFile);
             GridViewUnsettledBets.DataSource = dataTable;
@@ -60,7 +60,7 @@ namespace WebApplication1
                             {
                                 for (int j = 0; j < rowValues.Count(); j++)
                                 {
-                                    datatableCsv.Columns.Add(rowValues[j]); 
+                                    datatableCsv.Columns.Add(rowValues[j], typeof(Int32)); 
                                 }
                             }
                             else // data rows
@@ -68,7 +68,7 @@ namespace WebApplication1
                                 DataRow dr = datatableCsv.NewRow();
                                 for (int k = 0; k < rowValues.Count(); k++)
                                 {
-                                    dr[k] = rowValues[k].ToString();
+                                    dr[k] = int.Parse(rowValues[k]);
                                 }
                                 datatableCsv.Rows.Add(dr);
                             }                            
@@ -79,6 +79,32 @@ namespace WebApplication1
             return datatableCsv;
         }
 
+        private DataTable SummariseSettledBets(DataTable settledBets)
+        {
+            DataTable dataTable = new DataTable();
+
+            DataColumn column;
+            column = new DataColumn();
+            column.DataType = typeof(Int32);
+            column.ColumnName = "Customer";
+            dataTable.Columns.Add(column);
+
+            column = new DataColumn();
+            column.DataType = typeof(Decimal);
+            column.ColumnName = "AverageStake";
+            dataTable.Columns.Add(column);
+
+            return settledBets.AsEnumerable()
+                .GroupBy(r => r.Field<int>("Customer"))
+                .Select(g => 
+                {
+                    DataRow row = dataTable.NewRow();
+                    row["Customer"] = g.Key;
+                    row["AverageStake"] = g.Average(x => x.Field<int>("Stake"));
+                    return row;
+                }).CopyToDataTable();
+
+        }
 
     }
 }

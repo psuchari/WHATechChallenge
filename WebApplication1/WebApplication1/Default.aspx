@@ -34,7 +34,7 @@
                 Large Win - When a bet will win more than $1000
             </p>
             <p>                
-                <asp:Button ID="AnalyseBets" runat="server" Text="Analyse" OnClick="AnalyseBets_Click" />
+                <asp:Button ID="AnalyseBets" runat="server" Text="Analyse" OnClick="AnalyseBets_Click" disabled="true"/>
             </p>
         </div>
     </div>
