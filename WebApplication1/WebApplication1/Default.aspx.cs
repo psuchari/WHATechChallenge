@@ -11,6 +11,8 @@ namespace WebApplication1
 {
     public partial class _Default : Page
     {
+        List<Int32> RiskyCustomers = new List<Int32>();
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -125,5 +127,27 @@ namespace WebApplication1
 
         }
 
+        protected void GridViewSettledBets_OnRowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                if (Convert.ToDouble(DataBinder.Eval(e.Row.DataItem, "WinPercentage")) > 60)
+                {
+                    e.Row.BackColor = System.Drawing.Color.Yellow;
+                    RiskyCustomers.Add(Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "Customer")));
+                }
+            }
+        }
+
+        protected void GridViewUnsettledBets_OnRowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                if (RiskyCustomers.Count > 0 && RiskyCustomers.Exists(x => x == Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "Customer"))))
+                {
+                    e.Row.BackColor = System.Drawing.Color.Yellow;
+                }
+            }
+        }
     }
 }

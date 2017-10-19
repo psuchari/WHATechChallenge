@@ -28,7 +28,7 @@
         <div class="col-md-4">
             <h2>Analyse Bets</h2>
             <p>
-                Risky - When a customer wins more than 60% of their bets<br />
+                <span style="background-color:yellow;">Risky</span> - When a customer wins more than 60% of their bets<br />
                 Unusual - When a customer stake is 10 times higher than their average bet<br />
                 Highly Unusual - When a customer stake is 30 times higher than their average bet<br />
                 Large Win - When a bet will win more than $1000
@@ -40,11 +40,11 @@
     </div>
 
     <div class="row">
-        <asp:GridView ID="GridViewSettledBets" runat="server"></asp:GridView>
+        <asp:GridView ID="GridViewSettledBets" runat="server" OnRowDataBound="GridViewSettledBets_OnRowDataBound"></asp:GridView>
     </div>
 
     <div class="row">
-        <asp:GridView ID="GridViewUnsettledBets" runat="server"></asp:GridView>
+        <asp:GridView ID="GridViewUnsettledBets" runat="server" OnRowDataBound="GridViewUnsettledBets_OnRowDataBound"></asp:GridView>
     </div>
 
     <div class="row">
