@@ -60,7 +60,7 @@ namespace WebApplication1
                             {
                                 for (int j = 0; j < rowValues.Count(); j++)
                                 {
-                                    datatableCsv.Columns.Add(rowValues[j], typeof(Int32)); 
+                                    datatableCsv.Columns.Add(rowValues[j].Trim(), typeof(Int32)); 
                                 }
                             }
                             else // data rows
@@ -94,6 +94,16 @@ namespace WebApplication1
             column.ColumnName = "AverageStake";
             dataTable.Columns.Add(column);
 
+            column = new DataColumn();
+            column.DataType = typeof(Int32);
+            column.ColumnName = "BetCount";
+            dataTable.Columns.Add(column);
+
+            column = new DataColumn();
+            column.DataType = typeof(Int32);
+            column.ColumnName = "WinCount";
+            dataTable.Columns.Add(column);
+
             return settledBets.AsEnumerable()
                 .GroupBy(r => r.Field<int>("Customer"))
                 .Select(g => 
@@ -101,6 +111,8 @@ namespace WebApplication1
                     DataRow row = dataTable.NewRow();
                     row["Customer"] = g.Key;
                     row["AverageStake"] = g.Average(x => x.Field<int>("Stake"));
+                    row["BetCount"] = g.Count();
+                    row["WinCount"] = g.Count(x => x.Field<int>("Win") > 0);
                     return row;
                 }).CopyToDataTable();
 
