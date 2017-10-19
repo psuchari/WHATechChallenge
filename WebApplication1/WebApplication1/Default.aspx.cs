@@ -143,11 +143,45 @@ namespace WebApplication1
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                if (RiskyCustomers.Count > 0 && RiskyCustomers.Exists(x => x == Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "Customer"))))
+                Int32 customer = Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "Customer"));
+                if (IsCustomerRisky(customer))
                 {
                     e.Row.BackColor = System.Drawing.Color.Yellow;
                 }
+
+                Int32 stake = Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "Stake"));
+                Double averageStake = GetCustomerAverageStake(customer);
+                if (IsStakeHighlyUnusual(stake, averageStake))
+                {
+                    e.Row.ForeColor = System.Drawing.Color.Red;
+                }
+                else if (IsStakeUnusual(stake, averageStake))
+                {
+                    e.Row.ForeColor = System.Drawing.Color.Orange;
+                }
             }
+        }
+
+        private bool IsCustomerRisky(Int32 customer)
+        {
+            return (RiskyCustomers.Count > 0 && RiskyCustomers.Exists(x => x == customer));
+        }
+
+        private Double GetCustomerAverageStake(Int32 customer)
+        {
+            return ((DataTable)GridViewSettledBets.DataSource).AsEnumerable()
+                .Where<DataRow>(r => r.Field<Int32>("Customer") == customer)
+                .Select(r => r.Field<Double>("AverageStake")).SingleOrDefault();
+        }
+
+        private bool IsStakeUnusual(Int32 stake, Double averageStake)
+        {
+            return (stake > averageStake * 10);
+        }
+
+        private bool IsStakeHighlyUnusual(Int32 stake, Double averageStake)
+        {
+            return (stake > averageStake * 30);
         }
     }
 }

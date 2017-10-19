@@ -29,8 +29,8 @@
             <h2>Analyse Bets</h2>
             <p>
                 <span style="background-color:yellow;">Risky</span> - When a customer wins more than 60% of their bets<br />
-                Unusual - When a customer stake is 10 times higher than their average bet<br />
-                Highly Unusual - When a customer stake is 30 times higher than their average bet<br />
+                <span style="color:orange;">Unusual</span> - When a customer stake is 10 times higher than their average bet<br />
+                <span style="color:red;">Highly Unusual</span> - When a customer stake is 30 times higher than their average bet<br />
                 Large Win - When a bet will win more than $1000
             </p>
             <p>                
