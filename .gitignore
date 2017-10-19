@@ -8,3 +8,6 @@
 /WebApplication1/WebApplication1/obj/Debug
 /WebApplication1/WebApplication1.Tests/bin/Debug
 /WebApplication1/WebApplication1.Tests/obj/Debug
+/.vs/slnx.sqlite
+/WebApplication1/WebApplication1/obj/Release/WebApplication1.csproj.CoreCompileInputs.cache
+/WebApplication1/WebApplication1.Tests/obj/Release/WebApplication1.Tests.csproj.CoreCompileInputs.cache
