@@ -31,7 +31,7 @@
                 <span style="background-color:yellow;">Risky</span> - When a customer wins more than 60% of their bets<br />
                 <span style="color:orange;">Unusual</span> - When a customer stake is 10 times higher than their average bet<br />
                 <span style="color:red;">Highly Unusual</span> - When a customer stake is 30 times higher than their average bet<br />
-                Large Win - When a bet will win more than $1000
+                <span style="font-weight:700">Large Payout</span> - When a bet will win more than $1000
             </p>
             <p>                
                 <asp:Button ID="AnalyseBets" runat="server" Text="Analyse" OnClick="AnalyseBets_Click" disabled="true"/>

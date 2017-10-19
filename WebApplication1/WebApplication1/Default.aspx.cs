@@ -159,6 +159,12 @@ namespace WebApplication1
                 {
                     e.Row.ForeColor = System.Drawing.Color.Orange;
                 }
+
+                Int32 payout = Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "To Win"));
+                if (IsHighPayoutBet(payout))
+                {
+                    e.Row.Font.Bold = true;
+                }
             }
         }
 
@@ -182,6 +188,11 @@ namespace WebApplication1
         private bool IsStakeHighlyUnusual(Int32 stake, Double averageStake)
         {
             return (stake > averageStake * 30);
+        }
+
+        private bool IsHighPayoutBet(Int32 payout)
+        {
+            return (payout > 1000);
         }
     }
 }
